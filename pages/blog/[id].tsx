@@ -56,7 +56,7 @@ const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
       </div>
       <div className={`mt-[16px]`}>{data.content}</div>
 
-      <div className={`mt-[32px] mb-[8px] text-[20px] font-bold`}>
+      <div id="comments" className={`mt-[32px] mb-[8px] text-[20px] font-bold`}>
         Comments ({data.comments.length})
       </div>
       <div className={`border-t border-gray-500`}></div>

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { format } from 'date-fns';
 import { IMiniPost } from '@/models/blog';
+import Link from 'next/link';
 
 interface IBlogCardProps {
   data: IMiniPost;
@@ -35,12 +36,13 @@ const BlogCard: FC<IBlogCardProps> = ({
       </div>
 
       <div className="blog-card__footer mt-[16px] flex gap-[8px] text-[14px]">
-        <div
-          className={`cursor-pointer rounded-md px-[8px] text-gray-500 hover:bg-gray-100`}
+        <Link
+          href={`/blog/${data.id}#comments`}
+          className={`cursor-pointer rounded-md px-[8px] text-gray-500 hover:bg-white`}
           onClick={onCommentClick}
         >
           {data.commentCount} comment{data.commentCount > 1 ? 's' : ''}
-        </div>
+        </Link>
       </div>
     </div>
   );
