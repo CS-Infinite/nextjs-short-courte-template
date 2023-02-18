@@ -4,7 +4,7 @@ export interface IComment {
   created_at: string;
 }
 
-export interface IBasePost {
+export interface IBaseBlog {
   id: number;
   title: string;
   content: string;
@@ -12,10 +12,10 @@ export interface IBasePost {
   updated_at: string;
 }
 
-export interface IPost extends IBasePost {
+export interface IBlog extends IBaseBlog {
   comments: IComment[];
 }
 
-export interface IMiniPost extends IBasePost {
+export interface IMiniBlog extends IBaseBlog {
   commentCount: number;
 }

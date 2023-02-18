@@ -1,23 +1,27 @@
 import Comment from '@/components/Comment';
 import Container from '@/components/Container';
-import { IPost } from '@/models/blog';
+import { IBlog } from '@/models/blog';
 import { randomBlogId } from '@/utils/blog-id';
 import Icon from '@mdi/react';
 import { format } from 'date-fns';
 import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { mdiArrowLeft, mdiPencil, mdiTrashCan } from '@mdi/js';
+import { mdiArrowLeft, mdiPencil, mdiSend, mdiTrashCan } from '@mdi/js';
 
 interface IBlogIdProps {
-  data: IPost;
+  data: IBlog;
 }
 
 const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
   const router = useRouter();
 
   const handleDelete = () => {
-    // delete code here
+    console.log('delete');
+  };
+
+  const handleSubmit = () => {
+    console.log('comment sent');
   };
 
   return (
@@ -60,6 +64,18 @@ const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
         Comments ({data.comments.length})
       </div>
       <div className={`border-t border-gray-500`}></div>
+
+      <div className={`mt-[16px] flex items-end gap-[8px]`}>
+        <textarea
+          className={`scrollbar h-[80px] w-full resize-none rounded-md border-gray-100 p-[8px] outline-none`}
+        ></textarea>
+        <div
+          className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full text-white hover:bg-gray-100`}
+          onClick={handleSubmit}
+        >
+          <Icon path={mdiSend} size={0.7} color="black" />
+        </div>
+      </div>
 
       <div className={`mt-[16px] flex flex-col gap-[16px]`}>
         {data.comments.map((item) => (

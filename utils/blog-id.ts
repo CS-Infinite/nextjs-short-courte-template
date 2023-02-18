@@ -1,8 +1,8 @@
-import { IComment, IPost } from '@/models/blog';
+import { IComment, IBlog } from '@/models/blog';
 import { faker } from '@faker-js/faker';
 import { add } from 'date-fns';
 
-export function randomBlogId(id: number): IPost {
+export function randomBlogId(id: number): IBlog {
   const commentCount = faker.datatype.number({ min: 0, max: 100 });
   const comments: IComment[] = [];
 

@@ -1,20 +1,14 @@
 import Container from '@/components/Container';
-import { IBlog } from '@/models/blog';
-import { GetServerSideProps, NextPage } from 'next';
 import { useState } from 'react';
-import { randomBlogId } from '@/utils/blog-id';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
+import { NextPage } from 'next';
 
-interface IEditBlogPageProps {
-  data: IBlog;
-}
-
-const EditBlogPage: NextPage<IEditBlogPageProps> = ({ data }) => {
-  const [title, setTitle] = useState<string>(data.title);
-  const [content, setContent] = useState<string>(data.content);
+const NewBlogPage: NextPage = () => {
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
   const router = useRouter();
 
@@ -34,7 +28,7 @@ const EditBlogPage: NextPage<IEditBlogPageProps> = ({ data }) => {
     <>
       <Container className={`flex flex-col pt-[16px] pb-[32px]`}>
         <Link
-          href={`/blog/${router.query.id}`}
+          href={`/`}
           className={`mb-[16px] flex w-fit cursor-pointer items-center rounded-md px-[8px] py-[4px] hover:bg-white`}
         >
           <Icon path={mdiArrowLeft} size={0.8} className={`mr-[8px]`} />
@@ -42,7 +36,7 @@ const EditBlogPage: NextPage<IEditBlogPageProps> = ({ data }) => {
         </Link>
 
         <div className={`mb-[16px] text-center text-[24px] font-bold`}>
-          Edit Blog
+          New Blog
         </div>
 
         <input
@@ -70,16 +64,4 @@ const EditBlogPage: NextPage<IEditBlogPageProps> = ({ data }) => {
   );
 };
 
-export default EditBlogPage;
-
-export const getServerSideProps: GetServerSideProps<
-  IEditBlogPageProps
-> = async (context) => {
-  const blog = randomBlogId(parseInt(context.query.id as string));
-
-  return {
-    props: {
-      data: blog,
-    },
-  };
-};
+export default NewBlogPage;

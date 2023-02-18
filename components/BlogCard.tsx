@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { format } from 'date-fns';
-import { IMiniPost } from '@/models/blog';
+import { IMiniBlog } from '@/models/blog';
 import Link from 'next/link';
 
 interface IBlogCardProps {
-  data: IMiniPost;
+  data: IMiniBlog;
   onTitleClick?: () => void;
   onCommentClick?: () => void;
 }

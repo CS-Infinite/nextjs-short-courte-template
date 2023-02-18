@@ -1,8 +1,8 @@
-import { IMiniPost, IPost } from '@/models/blog';
+import { IMiniBlog, IBlog } from '@/models/blog';
 import { faker } from '@faker-js/faker';
 
 export function randomBlogs() {
-  const randomBlogs: IMiniPost[] = [];
+  const randomBlogs: IMiniBlog[] = [];
 
   for (let i = 0; i < 50; i++) {
     const createdAt = faker.date
