@@ -3,7 +3,7 @@ import { Inter } from '@next/font/google';
 import Head from 'next/head';
 
 import '@/styles/global.scss';
-import { QueryClientProvider } from '@tanstack/react-query/build/lib/QueryClientProvider';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/services/query';
 
 const inter = Inter({ subsets: ['latin'] });
