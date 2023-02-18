@@ -8,7 +8,7 @@ interface IContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 const Container: FC<IContainerProps> = ({
   children,
   className,
-  maxWidth = 1000,
+  maxWidth = 800,
 }) => {
   return (
     <div

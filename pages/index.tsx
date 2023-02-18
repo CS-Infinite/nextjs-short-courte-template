@@ -1,19 +1,26 @@
 import BlogCard from '@/components/BlogCard';
 import Container from '@/components/Container';
-import { IPost } from '@/models/blog';
-import { getRandomBlogs } from '@/utils/blog-generator';
+import { IMiniPost } from '@/models/blog';
+import { randomBlogs } from '@/utils/blogs-generator';
 import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 interface IHomePageProps {
-  blogs: IPost[];
+  blogs: IMiniPost[];
 }
 
 const HomePage: NextPage<IHomePageProps> = ({ blogs }) => {
+  const router = useRouter();
+
   return (
-    <Container maxWidth={800}>
+    <Container>
       <div className={`flex flex-col gap-[8px] pt-[16px] pb-[32px]`}>
         {blogs.map((item, i) => (
-          <BlogCard key={i} data={item} />
+          <BlogCard
+            key={i}
+            data={item}
+            onTitleClick={() => router.push(`/blog/${i}`)}
+          />
         ))}
       </div>
     </Container>
@@ -22,12 +29,12 @@ const HomePage: NextPage<IHomePageProps> = ({ blogs }) => {
 
 export default HomePage;
 
-export const getServerSideProps: GetServerSideProps<IHomePageProps> = async (
-  context,
-) => {
+export const getServerSideProps: GetServerSideProps<
+  IHomePageProps
+> = async () => {
   return {
     props: {
-      blogs: getRandomBlogs(),
+      blogs: randomBlogs(),
     },
   };
 };
