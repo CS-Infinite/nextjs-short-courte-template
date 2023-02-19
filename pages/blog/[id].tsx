@@ -8,16 +8,23 @@ import { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { mdiArrowLeft, mdiPencil, mdiSend, mdiTrashCan } from '@mdi/js';
+import { useState } from 'react';
 
 interface IBlogIdProps {
   data: IBlog;
 }
 
 const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
+  const [comment, setComment] = useState<string>('');
+
   const router = useRouter();
 
   const handleDelete = () => {
     console.log('delete');
+  };
+
+  const handleCommentInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    setComment((e.target as HTMLTextAreaElement).value);
   };
 
   const handleSubmit = () => {
@@ -68,6 +75,8 @@ const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
       <div className={`mt-[16px] flex items-end gap-[8px]`}>
         <textarea
           className={`scrollbar h-[80px] w-full resize-none rounded-md border-gray-100 p-[8px] outline-none`}
+          placeholder={`Your comment ...`}
+          onInput={handleCommentInput}
         ></textarea>
         <div
           className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full text-white hover:bg-gray-100`}
