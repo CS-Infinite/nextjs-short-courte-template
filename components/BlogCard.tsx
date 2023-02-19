@@ -41,7 +41,7 @@ const BlogCard: FC<IBlogCardProps> = ({
           className={`cursor-pointer rounded-md px-[8px] text-gray-500 hover:bg-white`}
           onClick={onCommentClick}
         >
-          {data.commentCount} comment{data.commentCount > 1 ? 's' : ''}
+          {data.comments} comment{data.comments > 1 ? 's' : ''}
         </Link>
       </div>
     </div>

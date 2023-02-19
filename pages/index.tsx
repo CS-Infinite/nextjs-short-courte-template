@@ -26,13 +26,18 @@ const HomePage: NextPage<IHomePageProps> = ({ blogs }) => {
       </Link>
 
       <div className={`flex flex-col gap-[8px]`}>
-        {blogs.map((item, i) => (
-          <BlogCard
-            key={i}
-            data={item}
-            onTitleClick={() => router.push(`/blog/${i}`)}
-          />
-        ))}
+        {blogs.length > 0 &&
+          blogs.map((item) => (
+            <BlogCard
+              key={item.id}
+              data={item}
+              onTitleClick={() => router.push(`/blog/${item.id}`)}
+            />
+          ))}
+
+        {blogs.length === 0 && (
+          <div className={`text-center`}>No blogs to show.</div>
+        )}
       </div>
     </Container>
   );
@@ -43,9 +48,12 @@ export default HomePage;
 export const getServerSideProps: GetServerSideProps<
   IHomePageProps
 > = async () => {
+  const res = await fetch('http://178.128.211.123:8080/blogs');
+  const body = await res.json();
+
   return {
     props: {
-      blogs: randomBlogs(),
+      blogs: body || [],
     },
   };
 };

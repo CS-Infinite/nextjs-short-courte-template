@@ -17,5 +17,5 @@ export interface IBlog extends IBaseBlog {
 }
 
 export interface IMiniBlog extends IBaseBlog {
-  commentCount: number;
+  comments: number;
 }

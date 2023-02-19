@@ -5,10 +5,31 @@ import Link from 'next/link';
 import { mdiArrowLeft } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { NextPage } from 'next';
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+
+async function addNewBlog(payload: { title: string; content: string }) {
+  return fetch('http://178.128.211.123:8080/blogs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+    mode: 'no-cors',
+  });
+  // return axios.post('http://178.128.211.123:8080/blogs', payload);
+}
 
 const NewBlogPage: NextPage = () => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+
+  const mutation = useMutation({
+    mutationFn: addNewBlog,
+    onSuccess: () => {
+      router.push('/');
+    },
+  });
 
   const router = useRouter();
 
@@ -21,7 +42,8 @@ const NewBlogPage: NextPage = () => {
   };
 
   const handleSubmit = () => {
-    // submit code here
+    if (mutation.isLoading) return;
+    mutation.mutate({ title, content });
   };
 
   return (
@@ -56,6 +78,7 @@ const NewBlogPage: NextPage = () => {
 
         <button
           className={`mx-auto mt-[16px] w-fit rounded-md bg-green-500 px-[16px] py-[8px] text-white`}
+          onClick={handleSubmit}
         >
           Save Changes
         </button>

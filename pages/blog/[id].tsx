@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { mdiArrowLeft, mdiPencil, mdiSend, mdiTrashCan } from '@mdi/js';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 interface IBlogIdProps {
   data: IBlog;
@@ -27,8 +28,30 @@ const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
     setComment((e.target as HTMLTextAreaElement).value);
   };
 
+  const mutation = useMutation({
+    mutationFn: async (payload: string) => {
+      return fetch(
+        'http://178.128.211.123:8080/blogs/' + router.query.id + '/comments',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: payload,
+          }),
+          mode: 'no-cors',
+        },
+      );
+    },
+    onSuccess: () => {
+      router.reload();
+    },
+  });
+
   const handleSubmit = () => {
-    console.log('comment sent');
+    if (mutation.isLoading) return;
+    mutation.mutate(comment);
   };
 
   return (
@@ -68,7 +91,7 @@ const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
       <div className={`mt-[16px]`}>{data.content}</div>
 
       <div id="comments" className={`mt-[32px] mb-[8px] text-[20px] font-bold`}>
-        Comments ({data.comments.length})
+        Comments ({data.comments ? data.comments.length : 0})
       </div>
       <div className={`border-t border-gray-500`}></div>
 
@@ -87,9 +110,8 @@ const BlogIdPage: NextPage<IBlogIdProps> = ({ data }) => {
       </div>
 
       <div className={`mt-[16px] flex flex-col gap-[16px]`}>
-        {data.comments.map((item) => (
-          <Comment key={item.id} data={item} />
-        ))}
+        {data.comments &&
+          data.comments.map((item) => <Comment key={item.id} data={item} />)}
       </div>
     </Container>
   );
@@ -100,11 +122,15 @@ export default BlogIdPage;
 export const getServerSideProps: GetServerSideProps<IBlogIdProps> = async (
   context,
 ) => {
-  const blog = randomBlogId(parseInt(context.query.id as string));
+  // const blog = randomBlogId(parseInt(context.query.id as string));
+  const res = await fetch(
+    'http://178.128.211.123:8080/blogs/' + context.query.id,
+  );
+  const body = await res.json();
 
   return {
     props: {
-      data: blog,
+      data: body,
     },
   };
 };
